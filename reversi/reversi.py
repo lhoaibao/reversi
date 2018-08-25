@@ -18,43 +18,67 @@ def resetBoard(board):
 def drawBoard(board):
     print('  a b c d e f g h')
     for i in range(8):
-        print(i + 1, end='')
+        print(i + 1, end=' ')
         for j in range(8):
             if j < 7:
-                print(' %s' %board[i][j], end=' ')
+                print('%s' %board[i][j], end=' ')
             else:
-                print(' %s' %board[i][j])
+                print('%s' %board[i][j])
 
+def checkMove(board,current):
+    dic = {}
+    move = []
+    char = ['a','b','c','d','e','f','g','h']
+    for i in range(8):
+        for j in range(8):
+            if board[i][j] == current:
+                a = i + 1
+                if board[a][j] != current and board[a][j] != '.':
+                    a = i + 1
+                    while board[a][j] != current and a < 7:
+                        if board[a][j] != '.':
+                            move.append(str(char[j])+str(a+1))
+                            a += 1
+                        else:
+                            move.append(str(char[j])+str(a+1))
+                            moveResult = move.copy()
+                            move.clear()
+                            dic.setdefault(moveResult[len(moveResult) - 1], []).append(moveResult[0:len(moveResult)])
+                            break
 
-
-def enterPlayerTile():
-    # Lets the player type which tile they want to be.
-    # Returns a list with the player's tile as the first item, and the computer's tile as the second.
-    tile = ''
-    while not (tile == 'W' or tile == 'B'):
-        print('Do you want to be W or B?')
-        tile = input().upper()
-
-    # the first element in the tuple is the player's tile, the second is the computer's tile.
-    if tile == 'W':
-        return ['W', 'B']
-    else:
-        return ['B', 'W']
-
-def whoGoesFirst():
-    # Randomly choose the player who goes first.
-    if random.randint(0, 1) == 0:
-        return 'computer'
-    else:
-        return 'player'
-
-
-print('Welcome to Reversi!')
-
+    return ' '.join(dic.keys())
 mainBoard = getNewBoard()
 resetBoard(mainBoard)
-playerTile, computerTile = enterPlayerTile()
-turn = whoGoesFirst()
-print('The' + turn + 'will go first.')
+end = False
+player = ['B','W']
+i = 0
+print(checkMove(mainBoard,'B'))
+while end == True:
+    if '.' not in mainBoard:
+        break
+    else:
+        if player[i] == 'B':
+            drawBoard(mainBoard)
+            checkMove(mainBoard,player[i])
+            move = input()
+            while move not in dic.keys():
+                 move = input()
+            k = dic.get(move)
+            for j in range(len(k)):
+                mainBoard[k[j][0]][k[j][1]] = 'B'
+            drawBoard(mainBoard)
+            i += 1
+        if player[i] == 'W':
+            drawBoard(mainBoard)
+            checkMove(mainBoard,player[i])
+            move = input()
+            while move not in dic.keys():
+                 move = input()
+            k = dic.get(move)
+            for j in range(len(k)):
+                mainBoard[int(k[j][0])][int(k[j][1])] = 'W'
+            drawBoard(mainBoard)
+            i -= 1
 
-drawBoard(mainBoard)
+
+#tra diem
