@@ -192,7 +192,7 @@ def checkMove(board, current, d):
                                 move.clear()
                                 d.setdefault(str(ch[b])+str(a+1), v).extend(r)
                                 break
-    return ' '.join(d.keys())
+    return ' '.join(sorted(d.keys()))
 
 
 def getpoint(board):
@@ -226,7 +226,7 @@ def flip(board, dic, player, move):
 
 mainBoard = getNewBoard()
 resetBoard(mainBoard)
-player = ['B', 'W']
+er = ['B', 'W']
 i = 0
 dic = {}
 drawBoard(mainBoard)
@@ -236,31 +236,35 @@ while True:
         if '.' in mainBoard[j]:
             k += 1
     if k > 0:
-        if player[i] == 'B':
-            if checkMove(mainBoard, player[i], dic) == '':
+        if er[i] == 'B':
+            if checkMove(mainBoard, er[i], dic) == '':
                 print('Player B cannot play.')
                 i += 1
                 dic.clear()
             else:
-                print('Valid choices:', checkMove(mainBoard, player[i], dic))
+                print('Valid choices:', checkMove(mainBoard, er[i], dic))
                 move = input('Player B: ')
                 while move not in dic.keys():
-                    move = input('Invalid move choose again\nPlayer B: ')
-                flip(mainBoard, dic, player[i], move)
+                    print(move + ': Invalid choice')
+                    print('Valid choices:', checkMove(mainBoard, er[i], dic))
+                    move = input('Player B: ')
+                flip(mainBoard, dic, er[i], move)
                 drawBoard(mainBoard)
                 i += 1
                 dic.clear()
-        if player[i] == 'W':
-            if checkMove(mainBoard, player[i], dic) == '':
+        if er[i] == 'W':
+            if checkMove(mainBoard, er[i], dic) == '':
                 print('Player W cannot play.')
                 i -= 1
                 dic.clear()
             else:
-                print('Valid choices:', checkMove(mainBoard, player[i], dic))
+                print('Valid choices:', checkMove(mainBoard, er[i], dic))
                 move = input('Player W: ')
                 while move not in dic.keys():
-                    move = input('Invalid move choose again\nPlayer W: ')
-                flip(mainBoard, dic, player[i], move)
+                    print(move + ': Invalid choice')
+                    print('Valid choices:', checkMove(mainBoard, er[i], dic))
+                    move = input('Player W: ')
+                flip(mainBoard, dic, er[i], move)
                 drawBoard(mainBoard)
                 i -= 1
                 dic.clear()
