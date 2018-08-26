@@ -1,19 +1,14 @@
 import random
 import sys
-def getNewBoard():
-    board = []
-    for i in range(8):
-        board.append(['.']*8)
-    return board
+mainBoard = [['.', '.', '.', '.', '.', '.', '.', '.'],
+['.', '.', '.', '.', '.', '.', '.', '.'],
+['.', '.', '.', '.', '.', '.', '.', '.'],
+['.', '.', '.', 'W', 'B', '.', '.', '.'],
+['.', '.', '.', 'B', 'W', '.', '.', '.'],
+['.', '.', '.', '.', '.', '.', '.', '.'],
+['.', '.', '.', '.', '.', '.', '.', '.'],
+['.', '.', '.', '.', '.', '.', '.', '.']]
 
-def resetBoard(board):
-    for i in range(8):
-        for j in range(8):
-            board[i][j] = '.'
-    board[3][3] = 'W'
-    board[3][4] = 'B'
-    board[4][3] = 'B'
-    board[4][4] = 'W'
 
 def drawBoard(board):
     print('  a b c d e f g h')
@@ -25,60 +20,198 @@ def drawBoard(board):
             else:
                 print('%s' %board[i][j])
 
-def checkMove(board,current):
-    dic = {}
-    move = []
+def checkMove(board,current,dic):
     char = ['a','b','c','d','e','f','g','h']
     for i in range(8):
         for j in range(8):
             if board[i][j] == current:
-                a = i + 1
-                if board[a][j] != current and board[a][j] != '.':
+                move = []
+                if i < 7:
                     a = i + 1
-                    while board[a][j] != current and a < 7:
-                        if board[a][j] != '.':
-                            move.append(str(char[j])+str(a+1))
-                            a += 1
-                        else:
-                            move.append(str(char[j])+str(a+1))
-                            moveResult = move.copy()
-                            move.clear()
-                            dic.setdefault(moveResult[len(moveResult) - 1], []).append(moveResult[0:len(moveResult)])
-                            break
-
+                    if board[a][j] != current and board[a][j] != '.':
+                        while board[a][j] != current and a < 7:
+                            if board[a][j] != '.':
+                                move.append(str(a) + '-' +str(j))
+                                a += 1
+                            else:
+                                move.append(str(a) + '-' +str(j))
+                                moveResult = move.copy()
+                                move.clear()
+                                dic.setdefault(str(char[j])+str(a+1),moveResult)
+                                break
+                move = []
+                if i > 0:
+                    a = i - 1
+                    if board[a][j] != current and board[a][j] != '.':
+                        while board[a][j] != current and a > 0:
+                            if board[a][j] != '.':
+                                move.append(str(a) + '-' +str(j))
+                                a -= 1
+                            else:
+                                move.append(str(a) + '-' +str(j))
+                                moveResult = move.copy()
+                                move.clear()
+                                dic.setdefault(str(char[j])+str(a+1), moveResult)
+                                break
+                move = []
+                if j < 7:
+                    a = j + 1
+                    if board[i][a] != current and board[i][a] != '.':
+                        while board[i][a] != current and a < 7:
+                            if board[i][a] != '.':
+                                move.append(str(i) + '-' +str(a))
+                                a += 1
+                            else:
+                                move.append(str(i) + '-' +str(a))
+                                moveResult = move.copy()
+                                move.clear()
+                                dic.setdefault(str(char[a])+str(i+1), moveResult)
+                                break
+                move = []
+                if j > 0:
+                    a = j - 1
+                    if board[i][a] != current and board[i][a] != '.':
+                        while board[i][a] != current and a > 0:
+                            if board[i][a] != '.':
+                                move.append(str(i) + '-' +str(a))
+                                a -= 1
+                            else:
+                                move.append(str(i) + '-' +str(a))
+                                moveResult = move.copy()
+                                move.clear()
+                                dic.setdefault(str(char[a])+str(i+1), moveResult)
+                                break
+                move = []
+                if j < 7 and i < 7:
+                    a = i + 1
+                    b = j + 1
+                    if board[a][b] != current and board[a][b] != '.':
+                        while board[a][b] != current and a < 7 and b < 7:
+                            if board[a][b] != '.':
+                                move.append(str(a) + '-' +str(b))
+                                a += 1
+                                b += 1
+                            else:
+                                move.append(str(a) + '-' +str(b))
+                                moveResult = move.copy()
+                                move.clear()
+                                dic.setdefault(str(char[b])+str(a+1), moveResult)
+                                break
+                move = []
+                if j > 0 and i > 0:
+                    a = i - 1
+                    b = j - 1
+                    if board[a][b] != current and board[a][b] != '.':
+                        while board[a][b] != current and a > 0 and b > 0:
+                            if board[a][b] != '.':
+                                move.append(str(a) + ' -' +str(b))
+                                a -= 1
+                                b -= 1
+                            else:
+                                move.append(str(a) + '-' +str(b))
+                                moveResult = move.copy()
+                                move.clear()
+                                dic.setdefault(str(char[b])+str(a+1), moveResult)
+                                break
+                move = []
+                if j > 0 and i < 7:
+                    a = i + 1
+                    b = j - 1
+                    if board[a][b] != current and board[a][b] != '.':
+                        while board[a][b] != current and a < 7 and b > 0:
+                            if board[a][b] != '.':
+                                move.append(str(a) + '-' +str(b))
+                                a += 1
+                                b -= 1
+                            else:
+                                move.append(str(a) + '-' +str(b))
+                                moveResult = move.copy()
+                                move.clear()
+                                dic.setdefault(str(char[b])+str(a+1), moveResult)
+                                break
+                move = []
+                if j < 7 and i > 0:
+                    a = i - 1
+                    b = j + 1
+                    if board[a][b] != current and board[a][b] != '.':
+                        while board[a][b] != current and b < 7 and a > 0:
+                            if board[a][b] != '.':
+                                move.append(str(a) + '-' +str(b))
+                                a -= 1
+                                b += 1
+                            else:
+                                move.append(str(a) + '-' +str(b))
+                                moveResult = move.copy()
+                                move.clear() 
+                                dic.setdefault(str(char[b])+str(a+1), moveResult)
+                                break
     return ' '.join(dic.keys())
-mainBoard = getNewBoard()
-resetBoard(mainBoard)
-end = False
+
+def getpoint(board):
+    Bpoint = 0
+    Wpoint = 0
+    for i in range(8):
+        Bpoint += board[i].count('B')
+        Wpoint += board[i].count('W')
+    print('End of the game. W: '+Wpoint+', B: '+Bpoint)
+    if Bpoint > Wpoint:
+        return 'B wins.'
+    elif Bpoint < Wpoint:
+        return 'W wins.'
+    else:
+        return 'Draw.'
+
+def flip(board,dic,player,move):
+    if player == 'B':
+        x = dic.get(move)
+        for i in range(len(x)):
+            x[i] = x[i].split('-')
+            board[int(x[i][0])][int(x[i][1])] = 'B'
+    else:
+        x = dic.get(move)
+        for i in range(len(x)):
+            x[i] = x[i].split('-')
+            board[int(x[i][0])][int(x[i][1])] = 'W'
+    return board
+
 player = ['B','W']
 i = 0
-print(checkMove(mainBoard,'B'))
-while end == True:
-    if '.' not in mainBoard:
-        break
-    else:
+k = 0
+dic = {}
+drawBoard(mainBoard)
+while True:
+    for j in range(8):
+        if '.' in mainBoard[j]:
+            k += 1
+    if k > 0:
         if player[i] == 'B':
-            drawBoard(mainBoard)
-            checkMove(mainBoard,player[i])
-            move = input()
-            while move not in dic.keys():
-                 move = input()
-            k = dic.get(move)
-            for j in range(len(k)):
-                mainBoard[k[j][0]][k[j][1]] = 'B'
-            drawBoard(mainBoard)
-            i += 1
+            if checkMove(mainBoard,player[i],dic) == '':
+                print('Player B cannot play.')
+                i += 1
+                dic.clear()
+            else:
+                print('Valid choices:',checkMove(mainBoard,player[i],dic))
+                move = input('Player B: ')
+                while move not in dic.keys():
+                     move = input('Invalid move choose again\nPlayer B: ')
+                flip(mainBoard,dic,player[i],move)
+                drawBoard(mainBoard)
+                i += 1
+                dic.clear()
         if player[i] == 'W':
-            drawBoard(mainBoard)
-            checkMove(mainBoard,player[i])
-            move = input()
-            while move not in dic.keys():
-                 move = input()
-            k = dic.get(move)
-            for j in range(len(k)):
-                mainBoard[int(k[j][0])][int(k[j][1])] = 'W'
-            drawBoard(mainBoard)
-            i -= 1
-
-
-#tra diem
+            if checkMove(mainBoard,player[i],dic) == '':
+                print('Player B cannot play.')
+                i += 1
+                dic.clear()
+            else:
+                print('Valid choices:',checkMove(mainBoard,player[i],dic))
+                move = input('Player W: ')
+                while move not in dic.keys():
+                     move = input('Invalid move choose again\nPlayer W: ')
+                flip(mainBoard,dic,player[i],move)
+                drawBoard(mainBoard)
+                i -= 1
+                dic.clear()
+    else:
+        break
+print(getpoint(mainBoard))
