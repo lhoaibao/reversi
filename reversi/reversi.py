@@ -17,10 +17,10 @@ def resetBoard(board):
             board[x][y] = '.'
 
     # Starting pieces:
-    board[3][3] = 'B'
-    board[3][4] = 'W'
-    board[4][3] = 'W'
-    board[4][4] = 'B'
+    board[3][3] = 'W'
+    board[3][4] = 'B'
+    board[4][3] = 'B'
+    board[4][4] = 'W'
 
 
 def drawBoard(board):
