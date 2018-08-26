@@ -226,6 +226,7 @@ def flip(board, dic, player, move):
 
 mainBoard = getNewBoard()
 resetBoard(mainBoard)
+
 er = ['B', 'W']
 i = 0
 dic = {}
@@ -269,5 +270,7 @@ while True:
                 i -= 1
                 dic.clear()
     else:
+        drawBoard(mainBoard)
+        print('Player '+er[i]+' cannot play.')
         break
 print(getpoint(mainBoard))
