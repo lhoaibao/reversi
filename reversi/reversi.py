@@ -226,7 +226,6 @@ def flip(board, dic, player, move):
 
 mainBoard = getNewBoard()
 resetBoard(mainBoard)
-
 er = ['B', 'W']
 i = 0
 dic = {}
@@ -253,7 +252,7 @@ while True:
                 drawBoard(mainBoard)
                 i += 1
                 dic.clear()
-        if er[i] == 'W':
+        elif er[i] == 'W':
             if checkMove(mainBoard, er[i], dic) == '':
                 print('Player W cannot play.')
                 i -= 1
@@ -270,7 +269,14 @@ while True:
                 i -= 1
                 dic.clear()
     else:
-        drawBoard(mainBoard)
-        print('Player '+er[i]+' cannot play.')
-        break
+        if i == 0:
+            print('Player '+er[i]+' cannot play.')
+            drawBoard(mainBoard)
+            print('Player '+er[i+1]+' cannot play.')
+            break
+        else:
+            print('Player '+er[i]+' cannot play.')
+            drawBoard(mainBoard)
+            print('Player '+er[i-1]+' cannot play.')
+            break
 print(getpoint(mainBoard))
